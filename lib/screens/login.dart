@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/home_pageui.dart';
+import 'package:newhome/screens/signup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
@@ -17,6 +18,14 @@ class _login_nhaState extends State<login_nha> {
   var formkey = GlobalKey<FormState>();
   var email = TextEditingController();
   var pass = TextEditingController();
+
+  void error() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+          backgroundColor: Colors.redAccent, content: Text('Email not valid!')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +43,7 @@ class _login_nhaState extends State<login_nha> {
                     borderRadius: BorderRadius.circular(15),
                     color: Color.fromARGB(196, 228, 231, 238)),
                 width: 350,
-                height: 400,
+                height: 500,
                 child: Form(
                   key: formkey,
                   child: Column(
@@ -56,7 +65,7 @@ class _login_nhaState extends State<login_nha> {
                         padding: const EdgeInsets.all(20),
                         child: SizedBox(
                             width: 300,
-                            height: 50,
+                            height: 60,
                             child: TextFormField(
                               validator: (email) {
                                 if (email!.isEmpty ||
@@ -68,6 +77,8 @@ class _login_nhaState extends State<login_nha> {
                               },
                               controller: email,
                               decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 10.0),
                                   border: InputBorder.none,
                                   filled: true,
                                   hintText: 'Email',
@@ -81,15 +92,17 @@ class _login_nhaState extends State<login_nha> {
                         padding: const EdgeInsets.all(20),
                         child: SizedBox(
                             width: 300,
-                            height: 50,
+                            height: 60,
                             child: TextFormField(
-                              validator: (passf) {
-                                if (pass == null) {
+                              validator: (pass) {
+                                if (pass == null || pass.isEmpty) {
                                   return 'Enter a valid Password';
-                                } else {}
+                                } else
+                                  return null;
                               },
                               controller: pass,
-                              decoration: InputDecoration(
+                              decoration: InputDecoration(contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 10.0),
                                   border: InputBorder.none,
                                   filled: true,
                                   hintText: 'Password',
@@ -116,8 +129,7 @@ class _login_nhaState extends State<login_nha> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                             Home_nh()),
+                                        builder: (context) => Home_nh()),
                                   );
                                 }
                               },
@@ -128,7 +140,13 @@ class _login_nhaState extends State<login_nha> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const signup_nh()),
+                            );
+                          },
                           child: Text(
                             'Dont  have an Account? Sign Up Now',
                             style: TextStyle(

@@ -1,6 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:newhome/main.dart';
+import 'package:newhome/screens/login.dart';
+import 'package:newhome/screens/room_detPage.dart';
+import 'package:postgrest/src/types.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home_nh extends StatefulWidget {
   @override
@@ -8,9 +14,50 @@ class Home_nh extends StatefulWidget {
 }
 
 class _Home_nhState extends State<Home_nh> {
- 
+  String username = '';
+  int count = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveUsername();
+  }
+
+// Get pgs count
+
+// View a PG
+  // view_det() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => roomdet_2()),
+  //   );
+  // }
+
+// Clear sharefpref data logout
+  Future<void> clearUserDataInSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('email');
+    await prefs.remove('username');
+
+    print('User data cleared from shared preferences');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => login_nha()),
+    );
+  }
+
+  Future<void> retrieveUsername() async {
+    String retrievedUsername = await getUsernameFromSharedPrefs();
+    setState(() {
+      username = retrievedUsername;
+    });
+  }
 
   final TextEditingController _searchController = TextEditingController();
+  final _notes =
+      Supabase.instance.client.from('pg_det').stream(primaryKey: ['id']);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,23 +76,30 @@ class _Home_nhState extends State<Home_nh> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hello, User',
+                  'Hello ' + username,
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
                 Text('Welcome to NewHome',
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold))
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold))
               ],
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.account_circle,
-                  color: Color.fromARGB(255, 39, 114, 231),
-                ),
-              )
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      onPressed: () {
+                        clearUserDataInSharedPrefs();
+                      },
+                      icon: Icon(
+                        Icons.logout_rounded,
+                        color: Color.fromARGB(255, 39, 114, 231),
+                      )))
             ],
           ),
           SliverList(
@@ -87,7 +141,7 @@ class _Home_nhState extends State<Home_nh> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '200 Rooms Found',
+                        '$count Rooms Found',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -102,61 +156,104 @@ class _Home_nhState extends State<Home_nh> {
             // Rooms
             Container(
               height: 600,
-              child: MediaQuery(
-                data: MediaQuery.of(context).removePadding(removeTop: true),
-                child: ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          height: 200,
-                          width: 250,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage('assets/images/r1.jpg'))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 120, left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Heidhin Home Stay',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Outfit2',
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 30,
-                                      color: Color.fromARGB(255, 39, 114, 231),
-                                    ),
-                                    Text(
-                                      'Vellimadukunnu, Kozhikode',
-                                      style: TextStyle(
-                                          fontFamily: 'Outfit2',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+              child: StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: _notes,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
-              ),
+                    }
+                    final notes = snapshot.data!;
+                    return MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: ListView.builder(
+                          itemCount: notes.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog<void>(
+                                    context: context,
+                                    useSafeArea: false,
+                                    builder: (BuildContext context) {
+                                      return roomdet_2();
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  height: 200,
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(
+                                              notes[index]['image']))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 120, left: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          notes[index]['pg_name'],
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Outfit2',
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              size: 30,
+                                              color: Color.fromARGB(
+                                                  255, 39, 114, 231),
+                                            ),
+                                            Text(
+                                              notes[index]['location'] +
+                                                  ',' +
+                                                  notes[index]['city'],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Outfit2',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  }),
             )
           ]))
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 2,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favourites')
+        ],
+      ),
     );
   }
+}
+
+Future<String> getUsernameFromSharedPrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String username = prefs.getString('username') ?? '';
+  return username;
 }

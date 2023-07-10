@@ -4,14 +4,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/welcome.dart';
 
-class roomdet_2 extends StatefulWidget {
-  const roomdet_2({super.key});
+class roomdet_2 extends StatelessWidget {
+  // final dynamic notes;
 
-  @override
-  State<roomdet_2> createState() => _roomdet_2State();
-}
+  roomdet_2({super.key});
 
-class _roomdet_2State extends State<roomdet_2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +86,7 @@ class _roomdet_2State extends State<roomdet_2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Heidhin Home Stay',
+                      "Heidhin Homestay",
                       style: TextStyle(fontFamily: 'Outfit2', fontSize: 25),
                     ),
                     Row(
