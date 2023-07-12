@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:newhome/screens/admin_home.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
 
@@ -20,6 +22,7 @@ class _addpg_nhState extends State<addpg_nh> {
   // States
   List<String> _dropdownOptions = ['Kozhikode', 'Kannur', 'Malappuram'];
   File? _selectedImage;
+  String imgurl = '';
 
   var formkey = GlobalKey<FormState>();
   var pgname = TextEditingController();
@@ -27,12 +30,34 @@ class _addpg_nhState extends State<addpg_nh> {
   var location = TextEditingController();
   var rent = TextEditingController();
 
+  Future<void> upload_img() async {
+    final avatarFile = File(_selectedImage!.path);
+    String path = await supabase.storage.from('new_home').upload(
+          _selectedImage!.path,
+          avatarFile,
+          fileOptions: FileOptions(cacheControl: '3600', upsert: false),
+        );
+    final String publicUrl =
+        supabase.storage.from('new_home').getPublicUrl(_selectedImage!.path);
+    print('url is: $publicUrl');
+    setState(() {
+      imgurl = publicUrl.toString();
+    });
+    print('Got Url:$imgurl');
+  }
+
+  // Future<void> get_imgurl() async {
+  //   final String publicUrl =
+  //       supabase.storage.from('new_home').getPublicUrl(_selectedImage!.path);
+  // }
+
   Future<void> inserttotable() async {
-    await supabase.from('pg_details').insert({
+    await supabase.from('pg_det').insert({
       'pg_name': pgname.text,
       'city': _selectedOption.toString(),
       'location': location.text,
-      'rent': rent.text
+      'rent': rent.text,
+      'image': imgurl
     });
   }
 
@@ -67,7 +92,7 @@ class _addpg_nhState extends State<addpg_nh> {
                         borderRadius: BorderRadius.circular(15),
                         color: Color.fromARGB(196, 228, 231, 238)),
                     width: 350,
-                    height: 600,
+                    height: 620,
                     child: Form(
                       key: formkey,
                       child: Column(
@@ -153,15 +178,6 @@ class _addpg_nhState extends State<addpg_nh> {
                                 width: 300,
                                 height: 50,
                                 child: TextFormField(
-                                  // validator: (conpass) {
-                                  //   if (conpass!.isEmpty || conpass.length < 6) {
-                                  //     return 'Password Too Short or Empty';
-                                  //   } else if (cpass.text != pass.text) {
-                                  //     return 'Password does not match!';
-                                  //   } else {
-                                  //     return null;
-                                  //   }
-                                  // },
                                   controller: rent,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -174,13 +190,25 @@ class _addpg_nhState extends State<addpg_nh> {
                                           Color.fromARGB(78, 39, 113, 231)),
                                 )),
                           ),
-                          SizedBox(
-                              width: 250,
-                              height: 30,
-                              child: ListTile(
-                                title: Text('Upload Image'),
-                                leading: Icon(Icons.photo_library),
-                              )),
+                          // Pick Image
+                          GestureDetector(
+                            onTap: () {
+                              _pickImage();
+                            },
+                            child: SizedBox(
+                                width: 250,
+                                height: 30,
+                                child: ListTile(
+                                  title: Text('Upload Image'),
+                                  leading: Icon(Icons.photo_library),
+                                )),
+                          ),
+                          // Upload Now
+                          ElevatedButton(
+                              onPressed: () {
+                                upload_img();
+                              },
+                              child: Text('Upload')),
                           Padding(
                             padding: const EdgeInsets.all(20),
                             child: SizedBox(
@@ -198,6 +226,12 @@ class _addpg_nhState extends State<addpg_nh> {
                                         const SnackBar(
                                             backgroundColor: Colors.greenAccent,
                                             content: Text('Added Succesfully')),
+                                      );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const admin_nh()),
                                       );
                                     }
                                   },

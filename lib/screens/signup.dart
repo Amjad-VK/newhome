@@ -21,14 +21,7 @@ class _signup_nhState extends State<signup_nh> {
   var pass = TextEditingController();
   var cpass = TextEditingController();
 
-  Future<void> saveUserDataToSharedPrefs(String email, String username) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString('email', email);
-    await prefs.setString('username', username);
-
-    print('User data saved to shared preferences');
-  }
+  
 //   Future<void> signup() async {
 
 // final Session? session = res.session;
@@ -185,8 +178,7 @@ class _signup_nhState extends State<signup_nh> {
                                       data: {'username': uname.text},
                                     );
 
-                                    saveUserDataToSharedPrefs(
-                                        email.text, uname.text);
+                                    
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           backgroundColor: Colors.greenAccent,

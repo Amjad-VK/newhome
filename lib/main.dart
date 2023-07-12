@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/add_pg.dart';
 import 'package:newhome/screens/add_pg2.dart';
+import 'package:newhome/screens/admin_home.dart';
 
 import 'package:newhome/screens/home_pageui.dart';
 
 import 'package:newhome/screens/login.dart';
+import 'package:newhome/screens/my_profile.dart';
 import 'package:newhome/screens/room_detPage.dart';
 
 import 'package:newhome/screens/signup.dart';
@@ -24,7 +26,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Home_nh(),
+    home: SplashScreen(),
   ));
 }
 

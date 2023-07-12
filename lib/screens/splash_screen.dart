@@ -17,12 +17,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> navigateToNextScreen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
+    String? email = prefs.getString('email');
 
     // Delay the navigation for a certain duration (e.g., 2 seconds)
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 3));
 
-    if (username != null && username.isNotEmpty) {
+    if (email != null && email.isNotEmpty) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home_nh()),

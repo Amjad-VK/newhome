@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:newhome/screens/home_pageui.dart';
 import 'package:newhome/screens/signup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -15,6 +16,14 @@ class login_nha extends StatefulWidget {
 }
 
 class _login_nhaState extends State<login_nha> {
+  Future<void> saveUserDataToSharedPrefs(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('email', email);
+
+    print('User data saved to shared preferences');
+  }
+
   var formkey = GlobalKey<FormState>();
   var email = TextEditingController();
   var pass = TextEditingController();
@@ -101,7 +110,8 @@ class _login_nhaState extends State<login_nha> {
                                   return null;
                               },
                               controller: pass,
-                              decoration: InputDecoration(contentPadding: const EdgeInsets.symmetric(
+                              decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10.0),
                                   border: InputBorder.none,
                                   filled: true,
@@ -126,6 +136,7 @@ class _login_nhaState extends State<login_nha> {
                                     email: email.text,
                                     password: pass.text,
                                   );
+                                  saveUserDataToSharedPrefs(email.text);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
