@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:newhome/main.dart';
 import 'package:newhome/screens/login.dart';
@@ -90,6 +91,7 @@ class _Home_nhState extends State<Home_nh> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            pinned: false,
             backgroundColor: Color.fromARGB(255, 253, 253, 253),
             elevation: 0,
             leading: Padding(
@@ -452,11 +454,15 @@ class _Home_nhState extends State<Home_nh> {
                                                                     ElevatedButton(
                                                                         onPressed:
                                                                             () {
-                                                                          Navigator
-                                                                              .push(
-                                                                            context,
-                                                                            MaterialPageRoute(builder: (context) => const welcome_nh()),
-                                                                          );
+                                                                          // Make Call
+                                                                          var ph =
+                                                                              notes[index]['contact'].toString();
+                                                                          print(
+                                                                              ph);
+                                                                          var url =
+                                                                              Uri.parse('tel:${ph}');
+                                                                          launchUrl(
+                                                                              url);
                                                                         },
                                                                         child:
                                                                             Text(

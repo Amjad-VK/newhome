@@ -30,6 +30,7 @@ class _myprof_nhState extends State<myprof_nh> {
       UserAttributes(
         data: {'username': u_name.text},
          email: u_email.text,
+         password: u_pass.text,
       ),
     );
     final User? updatedUser = res.user;
@@ -94,21 +95,10 @@ class _myprof_nhState extends State<myprof_nh> {
                     fillColor: Color.fromARGB(78, 39, 113, 231)),
               ),
             ),
+            
             Padding(
               padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    filled: true,
-                    hintText: 'Enter Old Password',
-                    hintStyle:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    fillColor: Color.fromARGB(78, 39, 113, 231)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
+              child: TextFormField(controller: u_pass,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     filled: true,

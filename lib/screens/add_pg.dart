@@ -22,6 +22,8 @@ class _addpg_nhState extends State<addpg_nh> {
   // States
   List<String> _dropdownOptions = ['Kozhikode', 'Kannur', 'Malappuram'];
   File? _selectedImage;
+  bool _isChecked = false;
+  String f_wifi = '';
   String imgurl = '';
 
   var formkey = GlobalKey<FormState>();
@@ -57,7 +59,8 @@ class _addpg_nhState extends State<addpg_nh> {
       'city': _selectedOption.toString(),
       'location': location.text,
       'rent': rent.text,
-      'image': imgurl
+      'image': imgurl,
+      'f_wifi': f_wifi.toString()
     });
   }
 
@@ -92,7 +95,7 @@ class _addpg_nhState extends State<addpg_nh> {
                         borderRadius: BorderRadius.circular(15),
                         color: Color.fromARGB(196, 228, 231, 238)),
                     width: 350,
-                    height: 620,
+                    height: 700,
                     child: Form(
                       key: formkey,
                       child: Column(
@@ -190,7 +193,21 @@ class _addpg_nhState extends State<addpg_nh> {
                                           Color.fromARGB(78, 39, 113, 231)),
                                 )),
                           ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                  value: _isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      _isChecked = value ?? false;
+                                      f_wifi = "1";
+                                    });
+                                  }),
+                              Text('Wifi')
+                            ],
+                          )
                           // Pick Image
+                          ,
                           GestureDetector(
                             onTap: () {
                               _pickImage();
