@@ -23,7 +23,7 @@ class _addpg_nhState extends State<addpg_nh> {
   List<String> _dropdownOptions = ['Kozhikode', 'Kannur', 'Malappuram'];
   File? _selectedImage;
   bool _isChecked = false;
-  String f_wifi = '';
+  // String f_wifi = '';
   String imgurl = '';
 
   var formkey = GlobalKey<FormState>();
@@ -60,7 +60,7 @@ class _addpg_nhState extends State<addpg_nh> {
       'location': location.text,
       'rent': rent.text,
       'image': imgurl,
-      'f_wifi': f_wifi.toString()
+      // 'f_wifi': f_wifi.toString()
     });
   }
 
@@ -193,21 +193,21 @@ class _addpg_nhState extends State<addpg_nh> {
                                           Color.fromARGB(78, 39, 113, 231)),
                                 )),
                           ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                  value: _isChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      _isChecked = value ?? false;
-                                      f_wifi = "1";
-                                    });
-                                  }),
-                              Text('Wifi')
-                            ],
-                          )
+                          // Row(
+                          //   children: [
+                          //     Checkbox(
+                          //         value: _isChecked,
+                          //         onChanged: (bool? value) {
+                          //           setState(() {
+                          //             _isChecked = value ?? false;
+                          //             f_wifi = "1";
+                          //           });
+                          //         }),
+                          //     Text('Wifi')
+                          //   ],
+                          // )
                           // Pick Image
-                          ,
+                          
                           GestureDetector(
                             onTap: () {
                               _pickImage();

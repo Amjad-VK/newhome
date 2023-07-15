@@ -28,7 +28,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Home_nh(),
+    home: admin_pg_manage(),
   ));
 }
 
