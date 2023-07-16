@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:newhome/screens/user_searchpg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:newhome/main.dart';
@@ -141,28 +142,69 @@ class _Home_nhState extends State<Home_nh> {
           SliverList(
               delegate: SliverChildListDelegate([
             //Search Bar
+            // States
             Container(
-              height: 80,
               child: Padding(
-                padding: const EdgeInsets.all(13),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () => _searchController.clear(),
-                    ),
-                    border: OutlineInputBorder(
+                padding: const EdgeInsets.all(15),
+                child: InkWell(
+                  onTap: () {Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const admin_pg_search_user()),
+  );},
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 39, 114, 231),
                         borderRadius: BorderRadius.circular(20)),
-                    filled: true,
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search by Location',
-                    hintStyle:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Icon(
+                          Icons.search_rounded,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        Text(
+                          'Search by Location',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
+
+            // Container(
+            //   height: 80,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(13),
+            //     child: TextField(
+            //       controller: _searchController,
+            //       decoration: InputDecoration(
+            //         suffixIcon: IconButton(
+            //           icon: Icon(Icons.clear),
+            //           onPressed: () => _searchController.clear(),
+            //         ),
+            //         border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(20)),
+            //         filled: true,
+            //         prefixIcon: Icon(Icons.search),
+            //         hintText: 'Search by Location',
+            //         hintStyle:
+            //             TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
             // Room Count
             Container(

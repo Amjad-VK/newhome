@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/add_pg.dart';
-import 'package:newhome/screens/admin_managepg.dart';
+import 'package:newhome/screens/admin_managepg%20copy.dart';
+import 'package:newhome/screens/user_searchpg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
@@ -41,16 +42,21 @@ class _admin_nhState extends State<admin_nh> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Admin Home',
-          style: TextStyle(color: Colors.black, fontFamily: 'Outfit2'),
+        title: Row(
+          children: [
+            Icon(
+              Icons.account_box_rounded,
+              color: Colors.black,
+            ),
+            Text(
+              'Admin Home',
+              style: TextStyle(color: Colors.black, fontFamily: 'Outfit2'),
+            ),
+          ],
         ),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 253, 253, 253),
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Color.fromARGB(255, 39, 114, 231),
-        ),
+        
       ),
       body: Container(
         child: Column(
@@ -125,8 +131,8 @@ class _admin_nhState extends State<admin_nh> {
                       );
                     },
                     child: Text(
-                      'Register New PG',
-                      style: TextStyle(fontFamily: 'Outfit2'),
+                      'Add New PG',
+                      style: TextStyle(fontFamily: 'Outfit2', fontSize: 20),
                     )),
               ),
             ),
@@ -145,7 +151,7 @@ class _admin_nhState extends State<admin_nh> {
                     },
                     child: Text(
                       'Manage PGs',
-                      style: TextStyle(fontFamily: 'Outfit2'),
+                      style: TextStyle(fontFamily: 'Outfit2', fontSize: 20),
                     )),
               ),
             )

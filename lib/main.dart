@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/add_pg.dart';
-import 'package:newhome/screens/add_pg2.dart';
 import 'package:newhome/screens/admin_home.dart';
-import 'package:newhome/screens/admin_managepg.dart';
+import 'package:newhome/screens/user_searchpg.dart';
 import 'package:newhome/screens/admin_pgmg2.dart';
 
 import 'package:newhome/screens/home_pageui.dart';
@@ -28,7 +27,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: admin_pg_manage(),
+    home: admin_nh(),
   ));
 }
 

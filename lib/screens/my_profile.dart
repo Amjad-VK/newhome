@@ -55,9 +55,13 @@ class _myprof_nhState extends State<myprof_nh> {
         ),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 253, 253, 253),
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Color.fromARGB(255, 39, 114, 231),
+        leading: InkWell(onTap: () {
+           Navigator.pop(context);
+        },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromARGB(255, 39, 114, 231),
+          ),
         ),
       ),
       body: Form(
