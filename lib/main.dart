@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newhome/screens/add_pg.dart';
 import 'package:newhome/screens/admin_home.dart';
+import 'package:newhome/screens/admin_managepg%20copy.dart';
 import 'package:newhome/screens/user_searchpg.dart';
 import 'package:newhome/screens/admin_pgmg2.dart';
 

@@ -102,7 +102,7 @@ class _login_nhaState extends State<login_nha> {
                         child: SizedBox(
                             width: 300,
                             height: 60,
-                            child: TextFormField(
+                            child: TextFormField(obscureText: true,
                               validator: (pass) {
                                 if (pass == null || pass.isEmpty) {
                                   return 'Enter a valid Password';

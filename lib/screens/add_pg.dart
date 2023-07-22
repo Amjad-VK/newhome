@@ -31,6 +31,8 @@ class _addpg_nhState extends State<addpg_nh> {
   // var city = TextEditingController();
   var location = TextEditingController();
   var rent = TextEditingController();
+  var desc = TextEditingController();
+  var cont = TextEditingController();
 
   Future<void> upload_img() async {
     final avatarFile = File(_selectedImage!.path);
@@ -60,6 +62,8 @@ class _addpg_nhState extends State<addpg_nh> {
       'location': location.text,
       'rent': rent.text,
       'image': imgurl,
+      'facil': desc.text,
+      'contact': cont.text,
       // 'f_wifi': f_wifi.toString()
     });
   }
@@ -92,10 +96,10 @@ class _addpg_nhState extends State<addpg_nh> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         color: Color.fromARGB(196, 228, 231, 238)),
                     width: 350,
-                    height: 700,
+                    height: 750,
                     child: Form(
                       key: formkey,
                       child: Column(
@@ -111,10 +115,10 @@ class _addpg_nhState extends State<addpg_nh> {
                             ),
                           ),
                           SizedBox(
-                            height: 25,
+                            height: 20,
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             child: SizedBox(
                                 width: 300,
                                 height: 50,
@@ -132,7 +136,7 @@ class _addpg_nhState extends State<addpg_nh> {
                                 )),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             child: SizedBox(
                               width: 300,
                               height: 50,
@@ -158,7 +162,7 @@ class _addpg_nhState extends State<addpg_nh> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             child: SizedBox(
                                 width: 300,
                                 height: 50,
@@ -176,7 +180,7 @@ class _addpg_nhState extends State<addpg_nh> {
                                 )),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             child: SizedBox(
                                 width: 300,
                                 height: 50,
@@ -193,6 +197,45 @@ class _addpg_nhState extends State<addpg_nh> {
                                           Color.fromARGB(78, 39, 113, 231)),
                                 )),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: SizedBox(
+                                width: 300,
+                                height: 50,
+                                child: TextFormField(
+                                  controller: cont,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      filled: true,
+                                      hintText: 'Contact No',
+                                      hintStyle: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                      fillColor:
+                                          Color.fromARGB(78, 39, 113, 231)),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: SizedBox(
+                                width: 300,
+                                height: 50,
+                                child: TextFormField(
+                                  controller: desc,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      filled: true,
+                                      hintText: 'Description',
+                                      hintStyle: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                      fillColor:
+                                          Color.fromARGB(78, 39, 113, 231)),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           // Row(
                           //   children: [
                           //     Checkbox(
@@ -207,7 +250,7 @@ class _addpg_nhState extends State<addpg_nh> {
                           //   ],
                           // )
                           // Pick Image
-                          
+
                           GestureDetector(
                             onTap: () {
                               _pickImage();
@@ -216,9 +259,12 @@ class _addpg_nhState extends State<addpg_nh> {
                                 width: 250,
                                 height: 30,
                                 child: ListTile(
-                                  title: Text('Upload Image'),
+                                  title: Text('Select Image'),
                                   leading: Icon(Icons.photo_library),
                                 )),
+                          ),
+                          SizedBox(
+                            height: 5,
                           ),
                           // Upload Now
                           ElevatedButton(

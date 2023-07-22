@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carousel_slider/carousel_options.dart';
+import 'package:newhome/screens/update_pg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,27 @@ class admin_pg_manage extends StatefulWidget {
 }
 
 class _admin_pg_manageState extends State<admin_pg_manage> {
-  var pgname = TextEditingController();
+ 
+ var pgname = TextEditingController();
+  
+  var contact = TextEditingController();
+  var rent = TextEditingController();
+
+
+// fetch pg det
+get_userdet() async {
+   final data = await supabase
+  .from('pg_det')
+  .select('pg_name, rent,contact')
+  .eq('id', "data"); 
+    setState(() {
+      // u_email.text = user.email.toString();
+      // u_name.text = user.userMetadata!["username"];
+    });
+  }
+
+
+
   var formkey = GlobalKey<FormState>();
   // String value = 'ko';
   dynamic pgdata = '';
@@ -35,8 +56,7 @@ class _admin_pg_manageState extends State<admin_pg_manage> {
 
     print("matched Pg:$newVariable");
 
-    // data = item;
-    // print("Matched PG:${data[0]['pg_name']}");
+
 
     print("String:$value");
     // print("matched Pg:$pgdata");
@@ -85,19 +105,6 @@ class _admin_pg_manageState extends State<admin_pg_manage> {
                               search_pg(value);
                             },
                           )
-                          //  ,SearchBar(
-                          //     hintText: 'Enter Place',
-                          //     onChanged: (value) async {
-
-                          //       print("matched Pg:${item}");
-
-                          //       // item.forEach((map) {
-                          //       //   map.forEach((key, value) {
-                          //       //     print('$key: $value');
-                          //       //   });
-                          //       // });
-                          //     },
-                          //   ),
                           ),
                     ],
                   ),
@@ -136,12 +143,51 @@ class _admin_pg_manageState extends State<admin_pg_manage> {
                                       TextButton(
                                         child: const Text('Update'),
                                         onPressed: () async {
-                                          // Update
-                                          
-await supabase
+                                          // Update Function
+                                         showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    scrollable: true,
+                    title: Text(data['pg_name']),
+                    content: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                        child: Column(
+                          children: <Widget>[
+                            TextFormField(controller: pgname,
+                              decoration: InputDecoration(
+                                labelText: 'PG Name',
+                                icon: Icon(Icons.account_box),
+                              ),
+                            ),
+                            TextFormField(controller: contact,
+                              decoration: InputDecoration(
+                                labelText: 'Contact',
+                                icon: Icon(Icons.phone),
+                              ),
+                            ),
+                            TextFormField(controller: rent,
+                              decoration: InputDecoration(
+                                labelText: 'Rent',
+                                icon: Icon(Icons.payment_rounded ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                     actions: [
+                      ElevatedButton(onPressed: () async {
+                        await supabase
   .from('pg_det')
   .update({ 'pg_name': 'Middle Earth' })
   .match({ 'name': 'Auckland' });
+                      }, child: Text('Update'))
+                    ],
+                  );
+                });
+
                                         },
                                       ),
                                       TextButton(
